@@ -31,7 +31,8 @@
             openFileDialog = new OpenFileDialog();
             pictureBox = new PictureBox();
             buttonLuminancia = new Button();
-            label = new Label();
+            labelRgb = new Label();
+            labelCmy = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -60,21 +61,30 @@
             buttonLuminancia.UseVisualStyleBackColor = true;
             buttonLuminancia.Click += OnClickButtonLuminancia;
             // 
-            // label
+            // labelRgb
             // 
-            label.AutoSize = true;
-            label.Font = new Font("Segoe UI", 11F);
-            label.Location = new Point(383, 615);
-            label.Name = "label";
-            label.Size = new Size(0, 20);
-            label.TabIndex = 2;
+            labelRgb.AutoSize = true;
+            labelRgb.Font = new Font("Segoe UI", 11F);
+            labelRgb.Location = new Point(383, 615);
+            labelRgb.Name = "labelRgb";
+            labelRgb.Size = new Size(0, 20);
+            labelRgb.TabIndex = 2;
+            // 
+            // labelCmy
+            // 
+            labelCmy.AutoSize = true;
+            labelCmy.Location = new Point(613, 615);
+            labelCmy.Name = "labelCmy";
+            labelCmy.Size = new Size(0, 15);
+            labelCmy.TabIndex = 3;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 729);
-            Controls.Add(label);
+            Controls.Add(labelCmy);
+            Controls.Add(labelRgb);
             Controls.Add(buttonLuminancia);
             Controls.Add(pictureBox);
             Name = "MainForm";
@@ -89,6 +99,7 @@
         private OpenFileDialog openFileDialog;
         private PictureBox pictureBox;
         private Button buttonLuminancia;
-        private Label label;
+        private Label labelRgb;
+        private Label labelCmy;
     }
 }

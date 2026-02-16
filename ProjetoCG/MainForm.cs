@@ -44,11 +44,12 @@ namespace ProjetoCG
                 if (x >= 0 && x < conversions.width && y >= 0 && y < conversions.height)
                 {
                     RGB corRgb = conversions.RGBMatrix[x, y];
+                    CMY corCmy = conversions.CMYMatrix[x, y];
 
-                    label.Text = $"RGB({corRgb.R}, {corRgb.G}, {corRgb.B})";
+                    labelRgb.Text = $"RGB({corRgb.R}, {corRgb.G}, {corRgb.B})";
+                    labelCmy.Text = $"CMY({corCmy.C:F3}, {corCmy.M:F3}, {corCmy.Y:F3})";
                 }
             }
         }
-
     }
 }
