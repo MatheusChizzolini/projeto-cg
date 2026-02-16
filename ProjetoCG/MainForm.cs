@@ -21,7 +21,7 @@ namespace ProjetoCG
                 bitmap = (Bitmap)image;
                 conversions = new Conversions(bitmap);
                 pictureBox.Image = image;
-                // pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                //pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
 
@@ -46,8 +46,13 @@ namespace ProjetoCG
                     RGB corRgb = conversions.RGBMatrix[x, y];
                     CMY corCmy = conversions.CMYMatrix[x, y];
 
-                    labelRgb.Text = $"RGB({corRgb.R}, {corRgb.G}, {corRgb.B})";
-                    labelCmy.Text = $"CMY({corCmy.C:F3}, {corCmy.M:F3}, {corCmy.Y:F3})";
+                    textBoxR.Text = $"{corRgb.R}";
+                    textBoxG.Text = $"{corRgb.G}";
+                    textBoxB.Text = $"{corRgb.B}";
+
+                    textBoxC.Text = $"{corCmy.C:F3}";
+                    textBoxM.Text = $"{corCmy.M:F3}";
+                    textBoxY.Text = $"{corCmy.Y:F3}";
                 }
             }
         }

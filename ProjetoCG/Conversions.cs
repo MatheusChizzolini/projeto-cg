@@ -48,7 +48,7 @@ namespace ProjetoCG
 
             unsafe
             {
-                byte* origem = (byte*)bitmapData.Scan0.ToPointer();
+                byte* origem = (byte*) bitmapData.Scan0.ToPointer();
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
@@ -83,9 +83,9 @@ namespace ProjetoCG
                     for (int x = 0; x < width; x++)
                     {
                         byte* atual = origem + y * stride + x * tamanhoPixel;
-                        CMYMatrix[x, y].Y = 1 - atual[0] / 255.0;
-                        CMYMatrix[x, y].M = 1 - atual[1] / 255.0;
-                        CMYMatrix[x, y].C = 1 - atual[2] / 255.0;
+                        CMYMatrix[x, y].Y = 1 - (atual[0] / 255.0);
+                        CMYMatrix[x, y].M = 1 - (atual[1] / 255.0);
+                        CMYMatrix[x, y].C = 1 - (atual[2] / 255.0);
                     }
                 }
             }
