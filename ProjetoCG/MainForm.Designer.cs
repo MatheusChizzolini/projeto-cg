@@ -43,6 +43,12 @@
             textBoxC = new TextBox();
             textBoxM = new TextBox();
             textBoxY = new TextBox();
+            textBoxH = new TextBox();
+            textBoxS = new TextBox();
+            textBoxI = new TextBox();
+            labelH = new Label();
+            labelS = new Label();
+            labelI = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -60,17 +66,17 @@
             pictureBox.TabIndex = 0;
             pictureBox.TabStop = false;
             pictureBox.MouseDoubleClick += OpenFileOnMouseDoubleClick;
-            pictureBox.MouseMove += pictureBox_MouseMove;
+            pictureBox.MouseMove += GetColorCodesOnMouseMove;
             // 
             // buttonLuminancia
             // 
-            buttonLuminancia.Location = new Point(15, 150);
+            buttonLuminancia.Location = new Point(14, 141);
             buttonLuminancia.Name = "buttonLuminancia";
-            buttonLuminancia.Size = new Size(106, 23);
+            buttonLuminancia.Size = new Size(284, 24);
             buttonLuminancia.TabIndex = 1;
             buttonLuminancia.Text = "Luminância";
             buttonLuminancia.UseVisualStyleBackColor = true;
-            buttonLuminancia.Click += OnClickButtonLuminancia;
+            buttonLuminancia.Click += ButtonLuminanciaClick;
             // 
             // textBoxR
             // 
@@ -112,7 +118,7 @@
             // 
             labelR.AutoSize = true;
             labelR.Font = new Font("Segoe UI", 10F);
-            labelR.Location = new Point(15, 23);
+            labelR.Location = new Point(14, 23);
             labelR.Name = "labelR";
             labelR.Size = new Size(17, 19);
             labelR.TabIndex = 5;
@@ -204,11 +210,83 @@
             textBoxY.TabIndex = 13;
             textBoxY.TextAlign = HorizontalAlignment.Center;
             // 
+            // textBoxH
+            // 
+            textBoxH.BackColor = Color.Gainsboro;
+            textBoxH.BorderStyle = BorderStyle.FixedSingle;
+            textBoxH.Font = new Font("Segoe UI", 10F);
+            textBoxH.Location = new Point(38, 101);
+            textBoxH.Name = "textBoxH";
+            textBoxH.ReadOnly = true;
+            textBoxH.Size = new Size(60, 25);
+            textBoxH.TabIndex = 14;
+            textBoxH.TextAlign = HorizontalAlignment.Center;
+            // 
+            // textBoxS
+            // 
+            textBoxS.BackColor = Color.Gainsboro;
+            textBoxS.BorderStyle = BorderStyle.FixedSingle;
+            textBoxS.Font = new Font("Segoe UI", 10F);
+            textBoxS.Location = new Point(141, 101);
+            textBoxS.Name = "textBoxS";
+            textBoxS.ReadOnly = true;
+            textBoxS.Size = new Size(60, 25);
+            textBoxS.TabIndex = 15;
+            textBoxS.TextAlign = HorizontalAlignment.Center;
+            // 
+            // textBoxI
+            // 
+            textBoxI.BackColor = Color.Gainsboro;
+            textBoxI.BorderStyle = BorderStyle.FixedSingle;
+            textBoxI.Font = new Font("Segoe UI", 10F);
+            textBoxI.Location = new Point(239, 101);
+            textBoxI.Name = "textBoxI";
+            textBoxI.ReadOnly = true;
+            textBoxI.Size = new Size(60, 25);
+            textBoxI.TabIndex = 16;
+            textBoxI.TextAlign = HorizontalAlignment.Center;
+            // 
+            // labelH
+            // 
+            labelH.AutoSize = true;
+            labelH.Font = new Font("Segoe UI", 10F);
+            labelH.Location = new Point(14, 103);
+            labelH.Name = "labelH";
+            labelH.Size = new Size(19, 19);
+            labelH.TabIndex = 17;
+            labelH.Text = "H";
+            // 
+            // labelS
+            // 
+            labelS.AutoSize = true;
+            labelS.Font = new Font("Segoe UI", 10F);
+            labelS.Location = new Point(116, 103);
+            labelS.Name = "labelS";
+            labelS.Size = new Size(16, 19);
+            labelS.TabIndex = 18;
+            labelS.Text = "S";
+            // 
+            // labelI
+            // 
+            labelI.AutoSize = true;
+            labelI.Font = new Font("Segoe UI", 10F);
+            labelI.Location = new Point(218, 103);
+            labelI.Name = "labelI";
+            labelI.Size = new Size(13, 19);
+            labelI.TabIndex = 19;
+            labelI.Text = "I";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(labelI);
+            Controls.Add(labelS);
+            Controls.Add(labelH);
+            Controls.Add(textBoxI);
+            Controls.Add(textBoxS);
+            Controls.Add(textBoxH);
             Controls.Add(textBoxY);
             Controls.Add(textBoxM);
             Controls.Add(textBoxC);
@@ -247,5 +325,11 @@
         private Label labelC;
         private Label labelM;
         private Label labelY;
+        private TextBox textBoxH;
+        private TextBox textBoxS;
+        private TextBox textBoxI;
+        private Label labelH;
+        private Label labelS;
+        private Label labelI;
     }
 }

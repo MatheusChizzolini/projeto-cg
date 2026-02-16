@@ -7,35 +7,43 @@ using System.Threading.Tasks;
 
 namespace ProjetoCG
 {
-    public struct RGB
+    public struct Rgb
     {
         public byte R, G, B;
     }
 
-    public struct CMY
+    public struct Cmy
     {
         public double C, M, Y;
     }
 
+    public struct Hsi
+    {
+        public int H;
+        public double S, I;
+    }
+
     class Conversions
     {
-        public RGB[,] RGBMatrix;
-        public CMY[,] CMYMatrix;
-        public int width { get; private set; }
-        public int height { get; private set; }
+        public Rgb[,] RgbMatrix;
+        public Cmy[,] CmyMatrix;
+        public Hsi[,] HsiMatrix;
+        public int width;
+        public int height;
 
         public Conversions(Bitmap bitmap)
         {
             width = bitmap.Width;
             height = bitmap.Height;
-            RGBMatrix = new RGB[width, height];
-            CMYMatrix = new CMY[width, height];
-
-            GenerateRGBMatrix(bitmap);
-            GenerateCMYMatrix(bitmap);
+            RgbMatrix = new Rgb[width, height];
+            CmyMatrix = new Cmy[width, height];
+            HsiMatrix = new Hsi[width, height];
+            GenerateRgbMatrix(bitmap);
+            GenerateCmyMatrix(bitmap);
+            GenerateHsiMatrix(bitmap);
         }
 
-        private void GenerateRGBMatrix(Bitmap bitmap)
+        private void GenerateRgbMatrix(Bitmap bitmap)
         {
             int tamanhoPixel = 3;
 
@@ -54,9 +62,9 @@ namespace ProjetoCG
                     for (int x = 0; x < width; x++)
                     {
                         byte* atual = origem + y * stride + x * tamanhoPixel;
-                        RGBMatrix[x, y].B = atual[0];
-                        RGBMatrix[x, y].G = atual[1];
-                        RGBMatrix[x, y].R = atual[2];
+                        RgbMatrix[x, y].B = atual[0];
+                        RgbMatrix[x, y].G = atual[1];
+                        RgbMatrix[x, y].R = atual[2];
                     }
                 }
             }
@@ -64,7 +72,7 @@ namespace ProjetoCG
             bitmap.UnlockBits(bitmapData);
         }
         
-        private void GenerateCMYMatrix(Bitmap bitmap)
+        private void GenerateCmyMatrix(Bitmap bitmap)
         {
             int tamanhoPixel = 3;
 
@@ -83,9 +91,68 @@ namespace ProjetoCG
                     for (int x = 0; x < width; x++)
                     {
                         byte* atual = origem + y * stride + x * tamanhoPixel;
-                        CMYMatrix[x, y].Y = 1 - (atual[0] / 255.0);
-                        CMYMatrix[x, y].M = 1 - (atual[1] / 255.0);
-                        CMYMatrix[x, y].C = 1 - (atual[2] / 255.0);
+                        CmyMatrix[x, y].Y = 1 - (atual[0] / 255.0);
+                        CmyMatrix[x, y].M = 1 - (atual[1] / 255.0);
+                        CmyMatrix[x, y].C = 1 - (atual[2] / 255.0);
+                    }
+                }
+            }
+
+            bitmap.UnlockBits(bitmapData);
+        }
+
+        private void GenerateHsiMatrix(Bitmap bitmap)
+        {
+            int tamanhoPixel = 3;
+
+            BitmapData bitmapData = bitmap.LockBits(
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadOnly,
+                PixelFormat.Format24bppRgb);
+
+            int stride = bitmapData.Stride;
+
+            unsafe
+            {
+                byte* origem = (byte*)bitmapData.Scan0.ToPointer();
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        byte* atual = origem + y * stride + x * tamanhoPixel;
+
+                        int rgbSum = atual[0] + atual[1] + atual[2];
+                        if (rgbSum == 0)
+                        {
+                            HsiMatrix[x, y].H = 0;
+                            HsiMatrix[x, y].S = 0;
+                            HsiMatrix[x, y].I = 0;
+                        }
+                        else
+                        {
+                            double b = (double)atual[0] / rgbSum;
+                            double g = (double)atual[1] / rgbSum;
+                            double r = (double)atual[2] / rgbSum;
+
+                            HsiMatrix[x, y].I = rgbSum / (3 * 255.0);
+                            HsiMatrix[x, y].S = 1 - 3 * Math.Min(r, Math.Min(g, b));
+                            double numerator = 0.5 * ((r - g) + (r - b));
+                            double denominator = Math.Pow(Math.Pow(r - g, 2) + (r - b) * (g - b), 0.5);
+                            if (denominator == 0)
+                            {
+                                HsiMatrix[x, y].H = 0;
+                            }
+                            else
+                            {
+                                double h = Math.Acos(numerator / denominator);
+                                if (b > g)
+                                {
+                                    h = 2 * Math.PI - h;
+                                }
+
+                                HsiMatrix[x, y].H = (int)(h * 180 / Math.PI);
+                            }
+                        }
                     }
                 }
             }

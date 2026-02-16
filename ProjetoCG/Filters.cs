@@ -38,13 +38,15 @@ namespace ProjetoCG
                     {
                         byte* atual = origem + y * stride + x * tamanhoPixel;
                         byte* novoPixel = destino + y * stride + x * tamanhoPixel;
+
                         b = atual[0];
                         g = atual[1];
                         r = atual[2];
                         int grayScale = (int)(r * 0.299 + g * 0.587 + b * 0.114);
-                        novoPixel[0] = (byte) grayScale;
-                        novoPixel[1] = (byte) grayScale;
-                        novoPixel[2] = (byte) grayScale;
+
+                        novoPixel[0] = (byte)grayScale;
+                        novoPixel[1] = (byte)grayScale;
+                        novoPixel[2] = (byte)grayScale;
                     }
                 }
             }

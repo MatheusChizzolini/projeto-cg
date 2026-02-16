@@ -25,7 +25,7 @@ namespace ProjetoCG
             }
         }
 
-        private void OnClickButtonLuminancia(object sender, EventArgs e)
+        private void ButtonLuminanciaClick(object sender, EventArgs e)
         {
             if (image != null)
             {
@@ -36,15 +36,16 @@ namespace ProjetoCG
             }
         }
 
-        private void pictureBox_MouseMove(object sender, MouseEventArgs e)
+        private void GetColorCodesOnMouseMove(object sender, MouseEventArgs e)
         {
             if (conversions != null)
             {
                 int x = e.X, y = e.Y;
                 if (x >= 0 && x < conversions.width && y >= 0 && y < conversions.height)
                 {
-                    RGB corRgb = conversions.RGBMatrix[x, y];
-                    CMY corCmy = conversions.CMYMatrix[x, y];
+                    Rgb corRgb = conversions.RgbMatrix[x, y];
+                    Cmy corCmy = conversions.CmyMatrix[x, y];
+                    Hsi corHsi = conversions.HsiMatrix[x, y];
 
                     textBoxR.Text = $"{corRgb.R}";
                     textBoxG.Text = $"{corRgb.G}";
@@ -53,6 +54,10 @@ namespace ProjetoCG
                     textBoxC.Text = $"{corCmy.C:F3}";
                     textBoxM.Text = $"{corCmy.M:F3}";
                     textBoxY.Text = $"{corCmy.Y:F3}";
+
+                    textBoxH.Text = $"{corHsi.H}º";
+                    textBoxS.Text = $"{corHsi.S:F3}";
+                    textBoxI.Text = $"{corHsi.I:F3}";
                 }
             }
         }
