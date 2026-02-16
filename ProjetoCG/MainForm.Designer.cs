@@ -31,6 +31,7 @@
             openFileDialog = new OpenFileDialog();
             pictureBox = new PictureBox();
             buttonLuminancia = new Button();
+            label = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -47,6 +48,7 @@
             pictureBox.TabIndex = 0;
             pictureBox.TabStop = false;
             pictureBox.MouseDoubleClick += OpenFileOnMouseDoubleClick;
+            pictureBox.MouseMove += pictureBox_MouseMove;
             // 
             // buttonLuminancia
             // 
@@ -58,17 +60,28 @@
             buttonLuminancia.UseVisualStyleBackColor = true;
             buttonLuminancia.Click += OnClickButtonLuminancia;
             // 
+            // label
+            // 
+            label.AutoSize = true;
+            label.Font = new Font("Segoe UI", 11F);
+            label.Location = new Point(383, 615);
+            label.Name = "label";
+            label.Size = new Size(0, 20);
+            label.TabIndex = 2;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 729);
+            Controls.Add(label);
             Controls.Add(buttonLuminancia);
             Controls.Add(pictureBox);
             Name = "MainForm";
             Text = "Projeto Computação Gráfica";
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -76,5 +89,6 @@
         private OpenFileDialog openFileDialog;
         private PictureBox pictureBox;
         private Button buttonLuminancia;
+        private Label label;
     }
 }

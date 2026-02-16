@@ -41,7 +41,7 @@ namespace ProjetoCG
                         b = atual[0];
                         g = atual[1];
                         r = atual[2];
-                        int grayScale = (int)(r * 0.299 + g * 0.587 + r * 0.114);
+                        int grayScale = (int)(r * 0.299 + g * 0.587 + b * 0.114);
                         novoPixel[0] = (byte) grayScale;
                         novoPixel[1] = (byte) grayScale;
                         novoPixel[2] = (byte) grayScale;
