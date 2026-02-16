@@ -2,9 +2,9 @@ namespace ProjetoCG
 {
     public partial class MainForm : Form
     {
-        private Image image;
-        private Bitmap bitmap;
-        private Conversions conversions;
+        private Image? image;
+        private Bitmap? bitmap;
+        private Conversions? conversions;
 
         public MainForm()
         {
@@ -21,6 +21,7 @@ namespace ProjetoCG
                 bitmap = (Bitmap)image;
                 conversions = new Conversions(bitmap);
                 pictureBox.Image = image;
+                conversions.UpdateMatrices(bitmap);
                 //pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
@@ -30,9 +31,8 @@ namespace ProjetoCG
             if (image != null)
             {
                 bitmap = (Bitmap)image;
-                Bitmap bitmapDestino = new Bitmap(image);
-                Filters.Luminancia(bitmap, bitmapDestino);
-                pictureBox.Image = bitmapDestino;
+                Filters.Luminancia(bitmap);
+                pictureBox.Image = bitmap;
             }
         }
 
@@ -59,6 +59,64 @@ namespace ProjetoCG
                     textBoxS.Text = $"{corHsi.S:F3}";
                     textBoxI.Text = $"{corHsi.I:F3}";
                 }
+            }
+        }
+
+        private void DecreaseHueClick(object sender, EventArgs e)
+        {
+            bitmap = (Bitmap)image;
+            if (conversions != null)
+            {
+                for (int y = 0; y < conversions.height; y++)
+                {
+                    for (int x = 0; x < conversions.width; x++)
+                    {
+                        if (conversions.HsiMatrix[x, y].H >= 0)
+                        {
+                            int newHue = conversions.HsiMatrix[x, y].H - 10;
+                            if (newHue < 0)
+                            {
+                                newHue += 360;
+                            }
+
+                            conversions.HsiMatrix[x, y].H = newHue;
+                        }
+                    }
+                }
+
+                Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
+                Filters.ChangeHue(bitmap, newRgbMatrix);
+                pictureBox.Image = bitmap;
+                conversions.UpdateMatrices(bitmap);
+            }
+        }
+
+        private void IncreaseHueClick(object sender, EventArgs e)
+        {
+            bitmap = (Bitmap)image;
+            if (image != null && conversions != null)
+            {
+                for (int y = 0; y < conversions.height; y++)
+                {
+                    for (int x = 0; x < conversions.width; x++)
+                    {
+                        if (conversions.HsiMatrix[x, y].H >= 0)
+                        {
+                            int newHue = conversions.HsiMatrix[x, y].H + 10; ;
+                            if (newHue >= 360)
+                            {
+                                newHue -= 360;
+                            }
+
+                            conversions.HsiMatrix[x, y].H = newHue;
+                        }
+                    }
+                }
+
+                Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
+                Filters.ChangeHue(bitmap, newRgbMatrix);
+                pictureBox.Image = bitmap;
+                conversions.UpdateMatrices(bitmap);
             }
         }
     }

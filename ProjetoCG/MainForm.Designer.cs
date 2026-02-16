@@ -49,6 +49,9 @@
             labelH = new Label();
             labelS = new Label();
             labelI = new Label();
+            labelChangeHue = new Label();
+            buttonIncreaseHue = new Button();
+            buttonDecreaseHue = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
             SuspendLayout();
             // 
@@ -70,9 +73,10 @@
             // 
             // buttonLuminancia
             // 
-            buttonLuminancia.Location = new Point(14, 141);
+            buttonLuminancia.Font = new Font("Segoe UI", 10F);
+            buttonLuminancia.Location = new Point(15, 141);
             buttonLuminancia.Name = "buttonLuminancia";
-            buttonLuminancia.Size = new Size(284, 24);
+            buttonLuminancia.Size = new Size(284, 30);
             buttonLuminancia.TabIndex = 1;
             buttonLuminancia.Text = "Luminância";
             buttonLuminancia.UseVisualStyleBackColor = true;
@@ -276,11 +280,46 @@
             labelI.TabIndex = 19;
             labelI.Text = "I";
             // 
+            // labelChangeHue
+            // 
+            labelChangeHue.AutoSize = true;
+            labelChangeHue.Font = new Font("Segoe UI", 10F);
+            labelChangeHue.Location = new Point(15, 184);
+            labelChangeHue.Name = "labelChangeHue";
+            labelChangeHue.Size = new Size(135, 19);
+            labelChangeHue.TabIndex = 21;
+            labelChangeHue.Text = "Mudar a matiz (Hue)";
+            // 
+            // buttonIncreaseHue
+            // 
+            buttonIncreaseHue.Font = new Font("Segoe UI", 10F);
+            buttonIncreaseHue.Location = new Point(161, 206);
+            buttonIncreaseHue.Name = "buttonIncreaseHue";
+            buttonIncreaseHue.Size = new Size(138, 30);
+            buttonIncreaseHue.TabIndex = 22;
+            buttonIncreaseHue.Text = "+10º";
+            buttonIncreaseHue.UseVisualStyleBackColor = true;
+            buttonIncreaseHue.Click += IncreaseHueClick;
+            // 
+            // buttonDecreaseHue
+            // 
+            buttonDecreaseHue.Font = new Font("Segoe UI", 10F);
+            buttonDecreaseHue.Location = new Point(15, 206);
+            buttonDecreaseHue.Name = "buttonDecreaseHue";
+            buttonDecreaseHue.Size = new Size(138, 30);
+            buttonDecreaseHue.TabIndex = 23;
+            buttonDecreaseHue.Text = "-10º";
+            buttonDecreaseHue.UseVisualStyleBackColor = true;
+            buttonDecreaseHue.Click += DecreaseHueClick;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(buttonDecreaseHue);
+            Controls.Add(buttonIncreaseHue);
+            Controls.Add(labelChangeHue);
             Controls.Add(labelI);
             Controls.Add(labelS);
             Controls.Add(labelH);
@@ -331,5 +370,8 @@
         private Label labelH;
         private Label labelS;
         private Label labelI;
+        private Label labelChangeHue;
+        private Button buttonIncreaseHue;
+        private Button buttonDecreaseHue;
     }
 }

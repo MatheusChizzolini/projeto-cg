@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,10 @@ namespace ProjetoCG
             RgbMatrix = new Rgb[width, height];
             CmyMatrix = new Cmy[width, height];
             HsiMatrix = new Hsi[width, height];
+        }
+
+        public void UpdateMatrices(Bitmap bitmap)
+        {
             GenerateRgbMatrix(bitmap);
             GenerateCmyMatrix(bitmap);
             GenerateHsiMatrix(bitmap);
@@ -158,6 +163,58 @@ namespace ProjetoCG
             }
 
             bitmap.UnlockBits(bitmapData);
+        }
+
+        public Rgb[,] ConvertHsiMatrixToRgb()
+        {
+            Rgb[,] newRgbMatrix = new Rgb[width, height];
+            for (int l = 0; l < height; l++)
+            {
+                for (int c = 0; c < width; c++)
+                {
+                    double h = HsiMatrix[c, l].H * Math.PI / 180;
+                    double s = HsiMatrix[c, l].S;
+                    double i = HsiMatrix[c, l].I;
+                    double r, g, b;
+
+                    double x, y, z;
+                    if (h < 2 * Math.PI / 3)
+                    {
+                        x = i * (1 - s);
+                        y = i * (1 + (((s * Math.Cos(h)) / Math.Cos(Math.PI / 3 - h))));
+                        z = 3 * i - (x + y);
+                        b = x;
+                        r = y;
+                        g = z;
+                    }
+                    else if (h < 4 * Math.PI / 3)
+                    {
+                        h -= 2 * Math.PI / 3;
+                        x = i * (1 - s);
+                        y = i * (1 + (((s * Math.Cos(h)) / Math.Cos(Math.PI / 3 - h))));
+                        z = 3 * i - (x + y);
+                        r = x;
+                        g = y;
+                        b = z;
+                    }
+                    else
+                    {
+                        h -= 4 * Math.PI / 3;
+                        x = i * (1 - s);
+                        y = i * (1 + (((s * Math.Cos(h)) / Math.Cos(Math.PI / 3 - h))));
+                        z = 3 * i - (x + y);
+                        r = z;
+                        g = x;
+                        b = y;
+                    }
+
+                    newRgbMatrix[c, l].R = (byte)Math.Max(0, Math.Min(255, r * 255));
+                    newRgbMatrix[c, l].G = (byte)Math.Max(0, Math.Min(255, g * 255));
+                    newRgbMatrix[c, l].B = (byte)Math.Max(0, Math.Min(255, b * 255));
+                }
+            }
+
+            return newRgbMatrix;
         }
     }
 }
