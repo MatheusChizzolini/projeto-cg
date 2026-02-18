@@ -216,5 +216,6 @@ namespace ProjetoCG
 
             return newRgbMatrix;
         }
+
     }
 }

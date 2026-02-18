@@ -4,6 +4,7 @@ namespace ProjetoCG
     {
         private Image? image;
         private Bitmap? bitmap;
+        private Bitmap? originalBitmap;
         private Conversions? conversions;
 
         public MainForm()
@@ -19,10 +20,10 @@ namespace ProjetoCG
             {
                 image = Image.FromFile(openFileDialog.FileName);
                 bitmap = (Bitmap)image;
+                originalBitmap = new Bitmap(bitmap);
                 conversions = new Conversions(bitmap);
                 pictureBox.Image = image;
                 conversions.UpdateMatrices(bitmap);
-                //pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
 
@@ -64,9 +65,9 @@ namespace ProjetoCG
 
         private void DecreaseHueClick(object sender, EventArgs e)
         {
-            bitmap = (Bitmap)image;
-            if (conversions != null)
+            if (image != null && conversions != null)
             {
+                bitmap = (Bitmap)image;
                 for (int y = 0; y < conversions.height; y++)
                 {
                     for (int x = 0; x < conversions.width; x++)
@@ -93,9 +94,9 @@ namespace ProjetoCG
 
         private void IncreaseHueClick(object sender, EventArgs e)
         {
-            bitmap = (Bitmap)image;
             if (image != null && conversions != null)
             {
+                bitmap = (Bitmap)image;
                 for (int y = 0; y < conversions.height; y++)
                 {
                     for (int x = 0; x < conversions.width; x++)
@@ -117,6 +118,52 @@ namespace ProjetoCG
                 Filters.ChangeHue(bitmap, newRgbMatrix);
                 pictureBox.Image = bitmap;
                 conversions.UpdateMatrices(bitmap);
+            }
+        }
+
+        private void ApplyHueSegmentation()
+        {
+            if (originalBitmap != null && conversions != null)
+            {
+                bitmap = new Bitmap(originalBitmap);
+
+                Filters.SegmentHue(bitmap, conversions.HsiMatrix,
+                    (int)numericUpDownMinHue.Value,
+                    (int)numericUpDownMaxHue.Value);
+
+                pictureBox.Image = bitmap;
+            }
+        }
+
+
+        private void SegmentHueOnCheckedChanged(object sender, EventArgs e)
+        {
+            if (originalBitmap != null)
+            {
+                if (checkBoxSegmentHue.Checked)
+                {
+                    ApplyHueSegmentation();
+                }
+                else
+                {
+                    pictureBox.Image = originalBitmap;
+                }
+            }
+        }
+
+        private void MinHueOnValueChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSegmentHue.Checked)
+            {
+                ApplyHueSegmentation();
+            }
+        }
+
+        private void MaxHueOnValueChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSegmentHue.Checked)
+            {
+                ApplyHueSegmentation();
             }
         }
     }

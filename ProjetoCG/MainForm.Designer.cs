@@ -52,7 +52,15 @@
             labelChangeHue = new Label();
             buttonIncreaseHue = new Button();
             buttonDecreaseHue = new Button();
+            labelSegmentHue = new Label();
+            numericUpDownMinHue = new NumericUpDown();
+            numericUpDownMaxHue = new NumericUpDown();
+            label1 = new Label();
+            label2 = new Label();
+            checkBoxSegmentHue = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMinHue).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMaxHue).BeginInit();
             SuspendLayout();
             // 
             // openFileDialog
@@ -286,9 +294,9 @@
             labelChangeHue.Font = new Font("Segoe UI", 10F);
             labelChangeHue.Location = new Point(15, 184);
             labelChangeHue.Name = "labelChangeHue";
-            labelChangeHue.Size = new Size(135, 19);
+            labelChangeHue.Size = new Size(98, 19);
             labelChangeHue.TabIndex = 21;
-            labelChangeHue.Text = "Mudar a matiz (Hue)";
+            labelChangeHue.Text = "Mudar a matiz";
             // 
             // buttonIncreaseHue
             // 
@@ -312,11 +320,79 @@
             buttonDecreaseHue.UseVisualStyleBackColor = true;
             buttonDecreaseHue.Click += DecreaseHueClick;
             // 
+            // labelSegmentHue
+            // 
+            labelSegmentHue.AutoSize = true;
+            labelSegmentHue.Font = new Font("Segoe UI", 10F);
+            labelSegmentHue.Location = new Point(15, 257);
+            labelSegmentHue.Name = "labelSegmentHue";
+            labelSegmentHue.Size = new Size(141, 19);
+            labelSegmentHue.TabIndex = 24;
+            labelSegmentHue.Text = "Segmentar pela matiz";
+            // 
+            // numericUpDownMinHue
+            // 
+            numericUpDownMinHue.BackColor = SystemColors.ControlLight;
+            numericUpDownMinHue.BorderStyle = BorderStyle.FixedSingle;
+            numericUpDownMinHue.Font = new Font("Segoe UI", 10F);
+            numericUpDownMinHue.Location = new Point(15, 297);
+            numericUpDownMinHue.Maximum = new decimal(new int[] { 360, 0, 0, 0 });
+            numericUpDownMinHue.Name = "numericUpDownMinHue";
+            numericUpDownMinHue.Size = new Size(138, 25);
+            numericUpDownMinHue.TabIndex = 25;
+            numericUpDownMinHue.ValueChanged += MinHueOnValueChanged;
+            // 
+            // numericUpDownMaxHue
+            // 
+            numericUpDownMaxHue.BackColor = SystemColors.ControlLight;
+            numericUpDownMaxHue.BorderStyle = BorderStyle.FixedSingle;
+            numericUpDownMaxHue.Font = new Font("Segoe UI", 10F);
+            numericUpDownMaxHue.Location = new Point(161, 297);
+            numericUpDownMaxHue.Maximum = new decimal(new int[] { 360, 0, 0, 0 });
+            numericUpDownMaxHue.Name = "numericUpDownMaxHue";
+            numericUpDownMaxHue.Size = new Size(138, 25);
+            numericUpDownMaxHue.TabIndex = 26;
+            numericUpDownMaxHue.ValueChanged += MaxHueOnValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(14, 279);
+            label1.Name = "label1";
+            label1.Size = new Size(49, 15);
+            label1.TabIndex = 27;
+            label1.Text = "Mínimo";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(161, 279);
+            label2.Name = "label2";
+            label2.Size = new Size(51, 15);
+            label2.TabIndex = 28;
+            label2.Text = "Máximo";
+            // 
+            // checkBoxSegmentHue
+            // 
+            checkBoxSegmentHue.AutoSize = true;
+            checkBoxSegmentHue.Location = new Point(284, 260);
+            checkBoxSegmentHue.Name = "checkBoxSegmentHue";
+            checkBoxSegmentHue.Size = new Size(15, 14);
+            checkBoxSegmentHue.TabIndex = 29;
+            checkBoxSegmentHue.UseVisualStyleBackColor = true;
+            checkBoxSegmentHue.CheckedChanged += SegmentHueOnCheckedChanged;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1264, 681);
+            Controls.Add(checkBoxSegmentHue);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(numericUpDownMaxHue);
+            Controls.Add(numericUpDownMinHue);
+            Controls.Add(labelSegmentHue);
             Controls.Add(buttonDecreaseHue);
             Controls.Add(buttonIncreaseHue);
             Controls.Add(labelChangeHue);
@@ -343,6 +419,8 @@
             Name = "MainForm";
             Text = "Projeto Computação Gráfica";
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMinHue).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMaxHue).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -373,5 +451,11 @@
         private Label labelChangeHue;
         private Button buttonIncreaseHue;
         private Button buttonDecreaseHue;
+        private Label labelSegmentHue;
+        private NumericUpDown numericUpDownMinHue;
+        private NumericUpDown numericUpDownMaxHue;
+        private Label label1;
+        private Label label2;
+        protected CheckBox checkBoxSegmentHue;
     }
 }
