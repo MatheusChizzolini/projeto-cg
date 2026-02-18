@@ -69,7 +69,7 @@
             // 
             // pictureBox
             // 
-            pictureBox.BackColor = Color.Gainsboro;
+            pictureBox.BackColor = SystemColors.ControlLight;
             pictureBox.BorderStyle = BorderStyle.FixedSingle;
             pictureBox.Location = new Point(340, 21);
             pictureBox.Name = "pictureBox";
@@ -92,7 +92,7 @@
             // 
             // textBoxR
             // 
-            textBoxR.BackColor = Color.Gainsboro;
+            textBoxR.BackColor = SystemColors.ControlLight;
             textBoxR.BorderStyle = BorderStyle.FixedSingle;
             textBoxR.Font = new Font("Segoe UI", 10F);
             textBoxR.Location = new Point(38, 21);
@@ -104,7 +104,7 @@
             // 
             // textBoxG
             // 
-            textBoxG.BackColor = Color.Gainsboro;
+            textBoxG.BackColor = SystemColors.ControlLight;
             textBoxG.BorderStyle = BorderStyle.FixedSingle;
             textBoxG.Font = new Font("Segoe UI", 10F);
             textBoxG.Location = new Point(141, 21);
@@ -116,7 +116,7 @@
             // 
             // textBoxB
             // 
-            textBoxB.BackColor = Color.Gainsboro;
+            textBoxB.BackColor = SystemColors.ControlLight;
             textBoxB.BorderStyle = BorderStyle.FixedSingle;
             textBoxB.Font = new Font("Segoe UI", 10F);
             textBoxB.Location = new Point(239, 21);
@@ -188,7 +188,7 @@
             // 
             // textBoxC
             // 
-            textBoxC.BackColor = Color.Gainsboro;
+            textBoxC.BackColor = SystemColors.ControlLight;
             textBoxC.BorderStyle = BorderStyle.FixedSingle;
             textBoxC.Font = new Font("Segoe UI", 10F);
             textBoxC.Location = new Point(38, 61);
@@ -200,7 +200,7 @@
             // 
             // textBoxM
             // 
-            textBoxM.BackColor = Color.Gainsboro;
+            textBoxM.BackColor = SystemColors.ControlLight;
             textBoxM.BorderStyle = BorderStyle.FixedSingle;
             textBoxM.Font = new Font("Segoe UI", 10F);
             textBoxM.Location = new Point(141, 61);
@@ -212,7 +212,7 @@
             // 
             // textBoxY
             // 
-            textBoxY.BackColor = Color.Gainsboro;
+            textBoxY.BackColor = SystemColors.ControlLight;
             textBoxY.BorderStyle = BorderStyle.FixedSingle;
             textBoxY.Font = new Font("Segoe UI", 10F);
             textBoxY.Location = new Point(239, 61);
@@ -224,7 +224,7 @@
             // 
             // textBoxH
             // 
-            textBoxH.BackColor = Color.Gainsboro;
+            textBoxH.BackColor = SystemColors.ControlLight;
             textBoxH.BorderStyle = BorderStyle.FixedSingle;
             textBoxH.Font = new Font("Segoe UI", 10F);
             textBoxH.Location = new Point(38, 101);
@@ -236,7 +236,7 @@
             // 
             // textBoxS
             // 
-            textBoxS.BackColor = Color.Gainsboro;
+            textBoxS.BackColor = SystemColors.ControlLight;
             textBoxS.BorderStyle = BorderStyle.FixedSingle;
             textBoxS.Font = new Font("Segoe UI", 10F);
             textBoxS.Location = new Point(141, 101);
@@ -248,7 +248,7 @@
             // 
             // textBoxI
             // 
-            textBoxI.BackColor = Color.Gainsboro;
+            textBoxI.BackColor = SystemColors.ControlLight;
             textBoxI.BorderStyle = BorderStyle.FixedSingle;
             textBoxI.Font = new Font("Segoe UI", 10F);
             textBoxI.Location = new Point(239, 101);
@@ -292,7 +292,7 @@
             // 
             labelChangeHue.AutoSize = true;
             labelChangeHue.Font = new Font("Segoe UI", 10F);
-            labelChangeHue.Location = new Point(15, 184);
+            labelChangeHue.Location = new Point(14, 179);
             labelChangeHue.Name = "labelChangeHue";
             labelChangeHue.Size = new Size(98, 19);
             labelChangeHue.TabIndex = 21;
@@ -301,7 +301,7 @@
             // buttonIncreaseHue
             // 
             buttonIncreaseHue.Font = new Font("Segoe UI", 10F);
-            buttonIncreaseHue.Location = new Point(161, 206);
+            buttonIncreaseHue.Location = new Point(161, 201);
             buttonIncreaseHue.Name = "buttonIncreaseHue";
             buttonIncreaseHue.Size = new Size(138, 30);
             buttonIncreaseHue.TabIndex = 22;
@@ -312,7 +312,7 @@
             // buttonDecreaseHue
             // 
             buttonDecreaseHue.Font = new Font("Segoe UI", 10F);
-            buttonDecreaseHue.Location = new Point(15, 206);
+            buttonDecreaseHue.Location = new Point(15, 201);
             buttonDecreaseHue.Name = "buttonDecreaseHue";
             buttonDecreaseHue.Size = new Size(138, 30);
             buttonDecreaseHue.TabIndex = 23;
@@ -324,7 +324,7 @@
             // 
             labelSegmentHue.AutoSize = true;
             labelSegmentHue.Font = new Font("Segoe UI", 10F);
-            labelSegmentHue.Location = new Point(15, 257);
+            labelSegmentHue.Location = new Point(12, 244);
             labelSegmentHue.Name = "labelSegmentHue";
             labelSegmentHue.Size = new Size(141, 19);
             labelSegmentHue.TabIndex = 24;
@@ -335,7 +335,7 @@
             numericUpDownMinHue.BackColor = SystemColors.ControlLight;
             numericUpDownMinHue.BorderStyle = BorderStyle.FixedSingle;
             numericUpDownMinHue.Font = new Font("Segoe UI", 10F);
-            numericUpDownMinHue.Location = new Point(15, 297);
+            numericUpDownMinHue.Location = new Point(15, 281);
             numericUpDownMinHue.Maximum = new decimal(new int[] { 360, 0, 0, 0 });
             numericUpDownMinHue.Name = "numericUpDownMinHue";
             numericUpDownMinHue.Size = new Size(138, 25);
@@ -347,7 +347,7 @@
             numericUpDownMaxHue.BackColor = SystemColors.ControlLight;
             numericUpDownMaxHue.BorderStyle = BorderStyle.FixedSingle;
             numericUpDownMaxHue.Font = new Font("Segoe UI", 10F);
-            numericUpDownMaxHue.Location = new Point(161, 297);
+            numericUpDownMaxHue.Location = new Point(161, 281);
             numericUpDownMaxHue.Maximum = new decimal(new int[] { 360, 0, 0, 0 });
             numericUpDownMaxHue.Name = "numericUpDownMaxHue";
             numericUpDownMaxHue.Size = new Size(138, 25);
@@ -357,7 +357,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(14, 279);
+            label1.Location = new Point(14, 263);
             label1.Name = "label1";
             label1.Size = new Size(49, 15);
             label1.TabIndex = 27;
@@ -366,16 +366,16 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(161, 279);
+            label2.Location = new Point(161, 263);
             label2.Name = "label2";
-            label2.Size = new Size(51, 15);
+            label2.Size = new Size(50, 15);
             label2.TabIndex = 28;
             label2.Text = "Máximo";
             // 
             // checkBoxSegmentHue
             // 
             checkBoxSegmentHue.AutoSize = true;
-            checkBoxSegmentHue.Location = new Point(284, 260);
+            checkBoxSegmentHue.Location = new Point(284, 249);
             checkBoxSegmentHue.Name = "checkBoxSegmentHue";
             checkBoxSegmentHue.Size = new Size(15, 14);
             checkBoxSegmentHue.TabIndex = 29;

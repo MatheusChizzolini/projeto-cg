@@ -101,7 +101,7 @@ namespace ProjetoCG
                     for (int x = 0; x < largura; x++)
                     {
                         int h = hsiMatrix[x, y].H;
-                        if (minHue <= maxHue) // caso padrão
+                        if (minHue <= maxHue)
                         {
                             if (h < minHue || h > maxHue)
                             {
@@ -117,7 +117,7 @@ namespace ProjetoCG
                                 atual[2] = (byte)grayScale;
                             }
                         }
-                        else // caso circular
+                        else
                         {
                             if (!(h >= minHue || h <= maxHue))
                             {
