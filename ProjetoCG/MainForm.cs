@@ -5,7 +5,11 @@ namespace ProjetoCG
         private Image? image;
         private Bitmap? bitmap;
         private Bitmap? originalBitmap;
+        private Bitmap? aux;
         private Conversions? conversions;
+
+        private int stepIntensity = 0;
+        private Boolean flagUsingIntensity = false;
 
         public MainForm()
         {
@@ -23,17 +27,42 @@ namespace ProjetoCG
                 originalBitmap = new Bitmap(bitmap);
                 conversions = new Conversions(bitmap);
                 pictureBox.Image = image;
+                pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                flagUsingIntensity = false;
+                stepIntensity = 0;
                 conversions.UpdateMatrices(bitmap);
+            }
+        }
+
+        private void SetCurrentBitmap(Bitmap bmp)
+        {
+
+            if (!ReferenceEquals(bitmap, bmp))
+            {
+                bitmap?.Dispose();
+                bitmap = (Bitmap)bmp.Clone();
+                pictureBox.Image = bitmap;
+            }
+            else
+            {
+                pictureBox.Image = bitmap;
             }
         }
 
         private void ButtonLuminanciaClick(object sender, EventArgs e)
         {
-            if (image != null)
+
+            if (bitmap != null)
             {
-                bitmap = (Bitmap)image;
+                if (flagUsingIntensity)
+                {
+                    aux?.Dispose();
+                    aux = null;
+                    flagUsingIntensity = false;
+                    stepIntensity = 0;
+                }
                 Filters.Luminancia(bitmap);
-                pictureBox.Image = bitmap;
+                SetCurrentBitmap(bitmap);
             }
         }
 
@@ -41,85 +70,192 @@ namespace ProjetoCG
         {
             if (conversions != null)
             {
-                int x = e.X, y = e.Y;
-                if (x >= 0 && x < conversions.width && y >= 0 && y < conversions.height)
+                if (TryGetImagePixel(e.Location, out Point imgPt))
                 {
-                    Rgb corRgb = conversions.RgbMatrix[x, y];
-                    Cmy corCmy = conversions.CmyMatrix[x, y];
-                    Hsi corHsi = conversions.HsiMatrix[x, y];
 
-                    textBoxR.Text = $"{corRgb.R}";
-                    textBoxG.Text = $"{corRgb.G}";
-                    textBoxB.Text = $"{corRgb.B}";
+                    int x = imgPt.X;
+                    int y = imgPt.Y;
 
-                    textBoxC.Text = $"{corCmy.C:F3}";
-                    textBoxM.Text = $"{corCmy.M:F3}";
-                    textBoxY.Text = $"{corCmy.Y:F3}";
+                    //Rgb corRgb = conversions.RgbMatrix[x, y];
+                    //Cmy corCmy = conversions.CmyMatrix[x, y];
+                    //Hsi corHsi = conversions.HsiMatrix[x, y];
 
-                    textBoxH.Text = $"{corHsi.H}º";
-                    textBoxS.Text = $"{corHsi.S:F3}";
-                    textBoxI.Text = $"{corHsi.I:F3}";
+                    //textBoxR.Text = $"{corRgb.R}";
+                    //textBoxG.Text = $"{corRgb.G}";
+                    //textBoxB.Text = $"{corRgb.B}";
+
+                    //textBoxC.Text = $"{corCmy.C:F3}";
+                    //textBoxM.Text = $"{corCmy.M:F3}";
+                    //textBoxY.Text = $"{corCmy.Y:F3}";
+
+                    //textBoxH.Text = $"{corHsi.H}º";
+                    //textBoxS.Text = $"{corHsi.S:F3}";
+                    //textBoxI.Text = $"{corHsi.I:F3}";
+
+                    Color pixel = bitmap.GetPixel(x, y);
+                    textBoxR.Text = $"{pixel.R}";
+                    textBoxG.Text = $"{pixel.G}";
+                    textBoxB.Text = $"{pixel.B}";
+
+                    double C, M, Y;
+                    (C, M, Y) = Conversions.CmyPixel(pixel);
+
+                    textBoxC.Text = $"{C:F3}";
+                    textBoxM.Text = $"{M:F3}";
+                    textBoxY.Text = $"{Y:F3}";
+
+                    double H, S, I;
+                    (H, S, I) = Conversions.RgbToHsi(pixel.R, pixel.G, pixel.B);
+
+                    textBoxH.Text = $"{(int)H}º";
+                    textBoxS.Text = $"{(int)S}%";
+                    textBoxI.Text = $"{(int)I}";
+
+                    panelColor.BackColor = pixel;
+                    tbX.Text = $"{x}";
+                    tbY.Text = $"{y}";
+
                 }
             }
+        }
+
+        private bool TryGetImagePixel(Point mousePoint, out Point imagePoint)
+        {
+            imagePoint = Point.Empty;
+
+            if (pictureBox.Image == null)
+                return false;
+
+            int imgW = pictureBox.Image.Width;
+            int imgH = pictureBox.Image.Height;
+
+            int boxW = pictureBox.ClientSize.Width;
+            int boxH = pictureBox.ClientSize.Height;
+
+            float imgAspect = (float)imgW / imgH;
+            float boxAspect = (float)boxW / boxH;
+
+            Rectangle drawRect;
+
+            if (imgAspect > boxAspect)
+            {
+                int drawHeight = (int)(boxW / imgAspect);
+                int top = (boxH - drawHeight) / 2;
+                drawRect = new Rectangle(0, top, boxW, drawHeight);
+            }
+            else
+            {
+                int drawWidth = (int)(boxH * imgAspect);
+                int left = (boxW - drawWidth) / 2;
+                drawRect = new Rectangle(left, 0, drawWidth, boxH);
+            }
+
+            if (!drawRect.Contains(mousePoint))
+                return false;
+
+            float scaleX = (float)imgW / drawRect.Width;
+            float scaleY = (float)imgH / drawRect.Height;
+
+            int imgX = (int)((mousePoint.X - drawRect.X) * scaleX);
+            int imgY = (int)((mousePoint.Y - drawRect.Y) * scaleY);
+
+            imgX = Math.Clamp(imgX, 0, imgW - 1);
+            imgY = Math.Clamp(imgY, 0, imgH - 1);
+
+            imagePoint = new Point(imgX, imgY);
+            return true;
         }
 
         private void DecreaseHueClick(object sender, EventArgs e)
         {
-            if (image != null && conversions != null)
+            if (bitmap == null) return;
+
+            if (flagUsingIntensity)
             {
-                bitmap = (Bitmap)image;
-                for (int y = 0; y < conversions.height; y++)
-                {
-                    for (int x = 0; x < conversions.width; x++)
-                    {
-                        if (conversions.HsiMatrix[x, y].H >= 0)
-                        {
-                            int newHue = conversions.HsiMatrix[x, y].H - 10;
-                            if (newHue < 0)
-                            {
-                                newHue += 360;
-                            }
-
-                            conversions.HsiMatrix[x, y].H = newHue;
-                        }
-                    }
-                }
-
-                Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
-                Filters.ChangeHue(bitmap, newRgbMatrix);
-                pictureBox.Image = bitmap;
-                conversions.UpdateMatrices(bitmap);
+                aux.Dispose();
+                aux = null;
+                flagUsingIntensity = false;
+                stepIntensity = 0;
             }
+
+            Conversions.ShiftHueInPlace(bitmap, -10);
+            SetCurrentBitmap(bitmap);
         }
 
         private void IncreaseHueClick(object sender, EventArgs e)
         {
-            if (image != null && conversions != null)
+            if (bitmap == null) return;
+            if (flagUsingIntensity)
             {
-                bitmap = (Bitmap)image;
-                for (int y = 0; y < conversions.height; y++)
-                {
-                    for (int x = 0; x < conversions.width; x++)
-                    {
-                        if (conversions.HsiMatrix[x, y].H >= 0)
-                        {
-                            int newHue = conversions.HsiMatrix[x, y].H + 10; ;
-                            if (newHue >= 360)
-                            {
-                                newHue -= 360;
-                            }
-
-                            conversions.HsiMatrix[x, y].H = newHue;
-                        }
-                    }
-                }
-
-                Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
-                Filters.ChangeHue(bitmap, newRgbMatrix);
-                pictureBox.Image = bitmap;
-                conversions.UpdateMatrices(bitmap);
+                aux.Dispose();
+                aux = null;
+                flagUsingIntensity = false;
+                stepIntensity = 0;
             }
+
+
+            Conversions.ShiftHueInPlace(bitmap, +10);
+            SetCurrentBitmap(bitmap);
         }
+
+
+        //private void DecreaseHueClick(object sender, EventArgs e)
+        //{
+        //    if (image != null && conversions != null)
+        //    {
+        //        bitmap = (Bitmap)image;
+        //        for (int y = 0; y < conversions.height; y++)
+        //        {
+        //            for (int x = 0; x < conversions.width; x++)
+        //            {
+        //                if (conversions.HsiMatrix[x, y].H >= 0)
+        //                {
+        //                    int newHue = conversions.HsiMatrix[x, y].H - 10;
+        //                    if (newHue < 0)
+        //                    {
+        //                        newHue += 360;
+        //                    }
+
+        //                    conversions.HsiMatrix[x, y].H = newHue;
+        //                }
+        //            }
+        //        }
+
+        //        Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
+        //        Filters.ChangeHue(bitmap, newRgbMatrix);
+        //        pictureBox.Image = bitmap;
+        //        //conversions.UpdateMatrices(bitmap);
+        //    }
+        //}
+
+        //private void IncreaseHueClick(object sender, EventArgs e)
+        //{
+        //    if (image != null && conversions != null)
+        //    {
+        //        bitmap = (Bitmap)image;
+        //        for (int y = 0; y < conversions.height; y++)
+        //        {
+        //            for (int x = 0; x < conversions.width; x++)
+        //            {
+        //                if (conversions.HsiMatrix[x, y].H >= 0)
+        //                {
+        //                    int newHue = conversions.HsiMatrix[x, y].H + 10; ;
+        //                    if (newHue >= 360)
+        //                    {
+        //                        newHue -= 360;
+        //                    }
+
+        //                    conversions.HsiMatrix[x, y].H = newHue;
+        //                }
+        //            }
+        //        }
+
+        //        Rgb[,] newRgbMatrix = conversions.ConvertHsiMatrixToRgb();
+        //        Filters.ChangeHue(bitmap, newRgbMatrix);
+        //        pictureBox.Image = bitmap;
+        //        //conversions.UpdateMatrices(bitmap);
+        //    }
+        //}
 
         private void ApplyHueSegmentation()
         {
@@ -166,5 +302,111 @@ namespace ProjetoCG
                 ApplyHueSegmentation();
             }
         }
+
+
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonIncreseIntesityClick(object sender, EventArgs e)
+        {
+            if (bitmap != null)
+            {
+                if (!flagUsingIntensity)
+                {
+                    flagUsingIntensity = true;
+
+                    aux?.Dispose();
+                    aux = (Bitmap)bitmap.Clone();
+                }
+                stepIntensity += 10;
+                var newBmp = (Bitmap)aux.Clone();
+                Conversions.ChangeIntensity(newBmp, stepIntensity);
+
+                SetCurrentBitmap(newBmp);
+            }
+        }
+
+        private void buttonDecreaseIntensityClick(object sender, EventArgs e)
+        {
+            if (bitmap != null)
+            {
+                if (!flagUsingIntensity)
+                {
+                    flagUsingIntensity = true;
+
+                    aux?.Dispose();
+                    aux = (Bitmap)bitmap.Clone();
+                }
+                stepIntensity -= 10;
+                var newBmp = (Bitmap)aux.Clone();
+                Conversions.ChangeIntensity(newBmp, stepIntensity);
+
+                SetCurrentBitmap(newBmp);
+            }
+        }
+        private static int ClampByte(double v)
+        {
+            if (v < 0) return 0;
+            if (v > 255) return 255;
+            return (int)Math.Round(v);
+        }
+
+        private static int HueToByte(double H) // H: 0..360
+        {
+            // garante faixa
+            H %= 360.0;
+            if (H < 0) H += 360.0;
+
+            return ClampByte(H * 255.0 / 360.0);
+        }
+
+        private static int SaturationToByte(double S)
+        {
+            // aceita S em 0..1 ou 0..100 ou já em 0..255
+            if (S <= 1.0) return ClampByte(S * 255.0);
+            if (S <= 100.0) return ClampByte(S * 255.0 / 100.0);
+            return ClampByte(S); // caso raro
+        }
+
+        private static int IntensityToByte(double I)
+        {
+            // aceita I em 0..1 ou 0..255
+            if (I <= 1.0) return ClampByte(I * 255.0);
+            return ClampByte(I);
+        }
+
+        private void GenerateMiniatures_Click(object sender, EventArgs e)
+        {
+            if (bitmap == null) return;
+
+
+            Bitmap src = bitmap;
+
+            Bitmap imgH = new Bitmap(src.Width, src.Height);
+            Bitmap imgS = new Bitmap(src.Width, src.Height);
+            Bitmap imgI = new Bitmap(src.Width, src.Height);
+
+
+
+           Filters.minitureHSI(src, imgH, imgS, imgI);
+
+            // Mostre nas miniaturas 
+            pictureBoxH.Image = imgH;
+            pictureBoxS.Image = imgS;
+            pictureBoxI.Image = imgI;
+
+            pictureBoxH.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxS.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxI.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+  
     }
 }
