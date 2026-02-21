@@ -278,10 +278,12 @@ namespace ProjetoCG
             {
                 if (checkBoxSegmentHue.Checked)
                 {
+                    conversions.UpdateMatrices(bitmap);
                     ApplyHueSegmentation();
                 }
                 else
                 {
+                    SetCurrentBitmap(originalBitmap);
                     pictureBox.Image = originalBitmap;
                 }
             }
