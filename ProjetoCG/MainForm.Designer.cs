@@ -314,7 +314,7 @@
             labelChangeHue.Name = "labelChangeHue";
             labelChangeHue.Size = new Size(98, 19);
             labelChangeHue.TabIndex = 21;
-            labelChangeHue.Text = "Mudar a matiz";
+            labelChangeHue.Text = "Alterar a matiz";
             // 
             // buttonIncreaseHue
             // 
@@ -413,7 +413,7 @@
             // 
             tbX.BackColor = SystemColors.Menu;
             tbX.BorderStyle = BorderStyle.None;
-            tbX.Location = new Point(358, 3);
+            tbX.Location = new Point(371, 3);
             tbX.Name = "tbX";
             tbX.Size = new Size(24, 16);
             tbX.TabIndex = 31;
@@ -422,10 +422,11 @@
             // 
             tbY.BackColor = SystemColors.Menu;
             tbY.BorderStyle = BorderStyle.None;
-            tbY.Location = new Point(411, 3);
+            tbY.Location = new Point(436, 3);
             tbY.Name = "tbY";
             tbY.Size = new Size(24, 16);
             tbY.TabIndex = 32;
+            tbY.TextChanged += tbY_TextChanged;
             // 
             // label3
             // 
@@ -444,7 +445,7 @@
             label4.AutoSize = true;
             label4.BackColor = SystemColors.Menu;
             label4.ForeColor = SystemColors.ControlText;
-            label4.Location = new Point(388, 3);
+            label4.Location = new Point(407, 3);
             label4.Name = "label4";
             label4.Size = new Size(23, 15);
             label4.TabIndex = 34;
@@ -458,7 +459,8 @@
             label5.Name = "label5";
             label5.Size = new Size(101, 19);
             label5.TabIndex = 35;
-            label5.Text = "Mudar o Brilho";
+            label5.Text = "Alterar o brilho";
+            label5.Click += label5_Click;
             // 
             // buttonDecreaseIntensity
             // 
@@ -467,7 +469,7 @@
             buttonDecreaseIntensity.Name = "buttonDecreaseIntensity";
             buttonDecreaseIntensity.Size = new Size(138, 30);
             buttonDecreaseIntensity.TabIndex = 36;
-            buttonDecreaseIntensity.Text = "-10";
+            buttonDecreaseIntensity.Text = "-";
             buttonDecreaseIntensity.UseVisualStyleBackColor = true;
             buttonDecreaseIntensity.Click += buttonDecreaseIntensityClick;
             // 
@@ -478,7 +480,7 @@
             buttonIncreseIntesity.Name = "buttonIncreseIntesity";
             buttonIncreseIntesity.Size = new Size(138, 30);
             buttonIncreseIntesity.TabIndex = 37;
-            buttonIncreseIntesity.Text = "+10";
+            buttonIncreseIntesity.Text = "+";
             buttonIncreseIntesity.UseVisualStyleBackColor = true;
             buttonIncreseIntesity.Click += buttonIncreseIntesityClick;
             // 

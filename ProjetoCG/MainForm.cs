@@ -30,7 +30,14 @@ namespace ProjetoCG
                 pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
                 flagUsingIntensity = false;
                 stepIntensity = 0;
+
+                pictureBoxH.Image = null;
+                pictureBoxS.Image = null;
+                pictureBoxI.Image = null;
+
+
                 conversions.UpdateMatrices(bitmap);
+                
             }
         }
 
@@ -354,36 +361,7 @@ namespace ProjetoCG
                 SetCurrentBitmap(newBmp);
             }
         }
-        private static int ClampByte(double v)
-        {
-            if (v < 0) return 0;
-            if (v > 255) return 255;
-            return (int)Math.Round(v);
-        }
 
-        private static int HueToByte(double H) // H: 0..360
-        {
-            // garante faixa
-            H %= 360.0;
-            if (H < 0) H += 360.0;
-
-            return ClampByte(H * 255.0 / 360.0);
-        }
-
-        private static int SaturationToByte(double S)
-        {
-            // aceita S em 0..1 ou 0..100 ou já em 0..255
-            if (S <= 1.0) return ClampByte(S * 255.0);
-            if (S <= 100.0) return ClampByte(S * 255.0 / 100.0);
-            return ClampByte(S); // caso raro
-        }
-
-        private static int IntensityToByte(double I)
-        {
-            // aceita I em 0..1 ou 0..255
-            if (I <= 1.0) return ClampByte(I * 255.0);
-            return ClampByte(I);
-        }
 
         private void GenerateMiniatures_Click(object sender, EventArgs e)
         {
@@ -398,7 +376,7 @@ namespace ProjetoCG
 
 
 
-           Filters.minitureHSI(src, imgH, imgS, imgI);
+            Filters.minitureHSI(src, imgH, imgS, imgI);
 
             // Mostre nas miniaturas 
             pictureBoxH.Image = imgH;
@@ -409,6 +387,15 @@ namespace ProjetoCG
             pictureBoxS.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxI.SizeMode = PictureBoxSizeMode.Zoom;
         }
-  
+
+        private void tbY_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
